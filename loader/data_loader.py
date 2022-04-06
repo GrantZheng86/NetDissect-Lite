@@ -8,7 +8,8 @@ import csv
 import settings
 import numpy as np
 from collections import OrderedDict
-from scipy.misc import imread
+# from scipy.misc import imread
+from imageio import imread
 from multiprocessing import Pool, cpu_count
 from multiprocessing.pool import ThreadPool
 from scipy.ndimage.interpolation import zoom
@@ -514,7 +515,8 @@ class SegmentationPrefetcher:
         while True:
             batch = self.fetch_batch()
             if batch is None:
-                raise StopIteration
+                # raise StopIteration
+                return
             yield batch
 
     def fetch_batch(self):
@@ -541,7 +543,8 @@ class SegmentationPrefetcher:
             batch = self.fetch_tensor_batch(
                     bgr_mean=bgr_mean, global_labels=global_labels)
             if batch is None:
-                raise StopIteration
+                # raise StopIteration
+                return
             yield batch
 
     def form_caffe_tensors(self, batch, bgr_mean=None, global_labels=False):
